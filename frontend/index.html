@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crop Yield Predictor</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <main class="container">
+
+        <!-- HEADER -->
+
+        <header class="header">
+
+            <div class="logo">
+                <div class="logo-icon">🌾</div>
+
+                <div>
+                    <h1>CropYield</h1>
+                    <p>AI Powered Agriculture</p>
+                </div>
+            </div>
+
+            <div class="api-status">
+                <span class="status-dot"></span>
+                API Connected
+            </div>
+
+        </header>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="badge">
+                    🌱 Machine Learning Prediction
+                </span>
+
+                <h2>
+                    Predict Your
+                    <span>Crop Yield</span>
+                </h2>
+
+                <p>
+                    Enter your agricultural information and let our
+                    XGBoost machine learning model estimate crop yield.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MAIN GRID -->
+
+        <section class="dashboard">
+
+            <!-- FORM CARD -->
+
+            <div class="card form-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Crop Information</h3>
+                        <p>Enter the details below</p>
+                    </div>
+
+                    <div class="card-icon">
+                        🌱
+                    </div>
+
+                </div>
+
+
+                <form id="predictionForm">
+
+                    <div class="form-grid">
+
+                        <!-- STATE -->
+
+                        <div class="form-group">
+
+                            <label for="state">
+                                State
+                            </label>
+
+                            <input type="text" id="state" name="state" placeholder="e.g. Uttar Pradesh" required>
+
+                        </div>
+
+
+                        <!-- DISTRICT -->
+
+                        <div class="form-group">
+
+                            <label for="district">
+                                District
+                            </label>
+
+                            <input type="text" id="district" name="district" placeholder="e.g. Sambhal" required>
+
+                        </div>
+
+
+                        <!-- CROP YEAR -->
+
+                        <div class="form-group">
+
+                            <label for="year">
+                                Crop Year
+                            </label>
+
+                            <input type="number" id="year" name="year" placeholder="e.g. 2014" min="1990" max="2030"
+                                required>
+
+                        </div>
+
+
+                        <!-- SEASON -->
+
+                        <div class="form-group">
+
+                            <label for="season">
+                                Season
+                            </label>
+
+                            <select id="season" name="season" required>
+
+                                <option value="">
+                                    Select season
+                                </option>
+
+                                <option value="Kharif">
+                                    Kharif
+                                </option>
+
+                                <option value="Rabi">
+                                    Rabi
+                                </option>
+
+                                <option value="Summer">
+                                    Summer
+                                </option>
+
+                                <option value="Winter">
+                                    Winter
+                                </option>
+
+                                <option value="Whole Year">
+                                    Whole Year
+                                </option>
+
+                                <option value="Autumn">
+                                    Autumn
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- CROP -->
+
+                        <div class="form-group full-width">
+
+                            <label for="crop">
+                                Crop
+                            </label>
+
+                            <input type="text" id="crop" name="crop" placeholder="e.g. Wheat" required>
+
+                        </div>
+
+
+                        <!-- AREA -->
+
+                        <div class="form-group full-width">
+
+                            <label for="area">
+                                Cultivation Area
+                            </label>
+
+                            <div class="input-with-unit">
+
+                                <input type="number" id="area" name="area" placeholder="e.g. 1000" min="0.01"
+                                    step="0.01" required>
+
+                                <span>hectares</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ERROR -->
+
+                    <div id="errorMessage" class="error-message hidden">
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <button type="submit" id="predictButton" class="predict-button">
+
+                        <span id="buttonText">
+                            Predict Crop Yield
+                        </span>
+
+                        <span id="loader" class="loader hidden"></span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- RESULT CARD -->
+
+            <div class="card result-card">
+
+                <div class="result-top">
+
+                    <div>
+
+                        <span class="result-label">
+                            PREDICTION RESULT
+                        </span>
+
+                        <h3>Estimated Yield</h3>
+
+                    </div>
+
+                    <div class="result-icon">
+                        📊
+                    </div>
+
+                </div>
+
+
+                <div id="resultPlaceholder" class="result-placeholder">
+
+                    <div class="placeholder-icon">
+                        🌾
+                    </div>
+
+                    <h4>Ready to Predict</h4>
+
+                    <p>
+                        Enter crop information and click
+                        <strong>Predict Crop Yield</strong>
+                        to see the estimated result.
+                    </p>
+
+                </div>
+
+
+                <div id="resultContent" class="result-content hidden">
+
+                    <div class="yield-value">
+
+                        <span id="yieldValue">
+                            0
+                        </span>
+
+                    </div>
+
+                    <div class="yield-unit">
+                        Tonnes / Hectare
+                    </div>
+
+
+                    <div class="result-divider"></div>
+
+
+                    <div class="prediction-info">
+
+                        <div class="info-item">
+
+                            <span>State</span>
+
+                            <strong id="resultState">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span>Crop</span>
+
+                            <strong id="resultCrop">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <span>Year</span>
+
+                            <strong id="resultYear">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="model-info">
+
+                    <span class="model-dot"></span>
+
+                    Powered by
+                    <strong>XGBoost</strong>
+                    Machine Learning
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <p>
+                CropYield Prediction System
+                <span>•</span>
+                FastAPI + XGBoost
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

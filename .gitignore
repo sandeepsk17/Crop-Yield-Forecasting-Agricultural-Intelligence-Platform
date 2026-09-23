@@ -1,0 +1,68 @@
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Virtual Environment
+# =========================
+
+.venv/
+venv/
+env/
+ENV/
+
+# =========================
+# Environment Variables
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+# Jupyter Notebook
+# =========================
+
+.ipynb_checkpoints/
+
+# =========================
+# Python Tools / IDE
+# =========================
+
+.vscode/
+.idea/
+
+# =========================
+# OS Files
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Temporary Files
+# =========================
+
+*.tmp
+*.temp
+*.log
+
+# =========================
+# Old / Unused Model Files
+# =========================
+
+crop_yield_model.pkl
+crop_yield_model_v2.pkl
+model_xgboost.pkl
+model_xgboost_v2.pkl
+
+# =========================
+# Keep Final Deployment Models
+# =========================
+
+# crop_yield_preprocessor.pkl
+# xgboost_model.json
